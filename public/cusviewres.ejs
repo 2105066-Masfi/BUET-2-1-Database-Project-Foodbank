@@ -1,0 +1,55 @@
+<!-- views/cusviewres.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurant Menu</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f8f8f8;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #008080;
+    }
+
+    .menu-category {
+      margin-bottom: 10px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 5px;
+    }
+
+    a {
+      color: #008080;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Menu for Restaurant <%= restname %></h1>
+
+  <!-- Loop through each menu category and display its items -->
+  <% menus.forEach(menu => { %>
+    <div class="menu-category">
+      <h2><%= menu.category %></h2>
+      <ul>
+          <li><a href="/cus/<%=id%>/viewmenu/<%= menu.id %>">View available items in <%= menu.category %> category</a></li>
+      </ul>
+    </div>
+  <% }); %>
+
+</body>
+</html>

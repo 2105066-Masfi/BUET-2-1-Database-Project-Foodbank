@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Menu Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .add-menu-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Add Menu Page</h1>
+    </header>
+
+    <div class="add-menu-container">
+        <form id="addMenuForm">
+            <label for="category">Category:</label>
+            <input type="text" id="category" name="category" required>
+
+            <button type="button" onclick="confirmAddMenu()">Confirm</button>
+        </form>
+    </div>
+
+    <script>
+        function confirmAddMenu() {
+            var category = document.getElementById("category").value;
+            var restaurantId = "<%= id %>";// Extracting restaurantId from EJS variable
+    
+            // Assuming you have an API endpoint on localhost:3000/res/:id/addmenu
+            var apiUrl = `http://localhost:3000/res/${restaurantId}/addmenu`;
+    
+            // You can use fetch to send data to the server
+            fetch(apiUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ category: category }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Server response:", data);
+                // Handle the server response as needed
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                // Handle errors
+            });
+        }
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .menu-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
+        .menu-item {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px;
+            width: 200px;
+            text-align: center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Restaurant Menu</h1>
+    </header>
+
+    <% if (menus.length > 0) { %>
+        <div class="menu-container">
+            <% menus.forEach(menu => { %>
+                <div class="menu-item" onclick="viewMenu('<%= menu.menu_id %>')">
+                    <h3><%= menu.category %></h3>
+                    <p>Menu ID: <%= menu.menu_id %></p>
+                </div>
+            <% }) %>
+        </div>
+    <% } else { %>
+        <div class="no-menus">
+            <p>There are no menus available.</p>
+        </div>
+    <% } %>
+
+    <div class="add-menu-container">
+        <a href="/res/<%= id %>/addmenu">
+            <button>Add Menu</button>
+        </a>
+    </div>
+    <script>
+        function viewMenu(menuId) {
+            window.location.href = `/menu/${menuId}`;
+        }
+    </script>
+</body>
+</html>

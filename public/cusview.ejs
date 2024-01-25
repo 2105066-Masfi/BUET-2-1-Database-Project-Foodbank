@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Restaurants</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f8f8f8;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #008080;
+    }
+
+    .restaurant {
+      margin-bottom: 20px;
+      padding: 10px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    strong {
+      color: #008080;
+    }
+  </style>
+</head>
+<body>
+  <h1>All Restaurants</h1>
+  
+  
+  <% Restaurants.forEach(restaurant => { %>
+    <div class="restaurant">
+      <h2><%= restaurant.name %></h2>
+      <p><strong>Address:</strong> <%= restaurant.address %></p>
+      <p><strong>Email:</strong> <%= restaurant.email %></p>
+      <p><strong>Rating:</strong> <%= restaurant.rating %></p>
+      <a href="/cus/<%=id%>/viewres/<%= restaurant.id %>">Go to Restaurant</a>
+    </div>
+  <% }); %>
+
+  
+</body>
+</html>

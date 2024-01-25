@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: url('res.jpg') center/cover no-repeat;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.container::before {
+    content: '';
+    background-color: white;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    border-radius: 8px;
+}
+
+form {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333; /* Default label color */
+}
+
+label.highlight {
+    color: greenyellow; /* Highlighted label color */
+}
+
+input,
+textarea {
+    width: 80%;
+    padding: 8px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    font-size: 14px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease-in-out;
+}
+
+#password {
+    background-color: #ffeeba;
+}
+
+#email {
+    background-color: #c1e1c5;
+}
+
+#email:hover,
+#password:hover {
+    border-color: #4caf50;
+}
+
+input:hover {
+    border-color: #4caf50;
+}
+
+input[type="tel"]:hover {
+    border-color: #4caf50;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #4caf50;
+}
+
+button {
+    width: 80%;
+    background-color: lightgreen ;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: cadetblue;
+}
+
+    </style>
+</head>
+<body>
+    <form id="loginForm">
+            <label for="email" class="highlight">Email:</label>
+            <input type="email" id="email" name="email" required>
+        
+        
+            <label for="password" class="highlight">Password:</label>
+            <input type="password" id="password" name="password" required>
+        
+            <button type="button" onclick="submitForm()">Login</button>
+        </form>
+        
+
+    <script>
+        async function submitForm() {
+                var email = document.getElementById("email").value;
+                var password = document.getElementById("password").value;
+    
+                var apiUrl = "http://localhost:3000/reslogin";
+    
+                const response = await fetch(apiUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ email: email, password: password }),
+                }).then(response => response.json())
+      .then(result => {
+        if(result.success){
+          window.location.href = `/res/`+result.Id;}
+        else{ alert("Invalid email or password");
+        window.location.href = `/`;
+      }
+      });}
+    
+                
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customized Menu</title>
+    <style>
+        /* Ekhane style hobe */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .food-item {
+            cursor: pointer;
+            margin: 10px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            transition: background-color 0.3s;
+        }
+
+        .food-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        strong {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Menu Details</h1>
+
+    <% if (FOODS.length > 0) { %>
+        <% FOODS.forEach((foodItem=> { %>
+            <div class="food-item" onclick="addtocart('<%= foodItem.FOOD_ID %> %>');">
+                <p><strong>ID:</strong> <%= foodItem.FOOD_ID %></p>
+                <p><strong>Name:</strong> <%= foodItem.FOOD_NAME %></p>
+                <p><strong>Price:</strong> $<%= foodItem.FOOD_PRICE %></p>
+            </div>
+        <% })); %>
+    <% } else { %>
+        <p>No food items available.</p>
+    <% } %>
+
+    <script>
+        function addtocart(foodId) {
+            
+            console.log("Adding to cart:", foodId);
+        }
+    </script>
+</body>
+</html>
