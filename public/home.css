@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
+
+
+.footer{
+    margin-left: auto;
+    background: #24262b;
+    padding: 70px 0;
+
+}
+.footer-col{
+    width: 25%;
+    height: 140px;
+    padding: 0 10px;
+}
+.footer-col h4{
+    cursor: default;
+    font-size: 13.5pt;
+    font-weight: normal;
+    color: orangered;
+    padding-bottom: 10px;
+
+}
+
+.footer-col ul a
+{
+    font-size:25px;
+    color:orangered;
+}
+.footer-col ul i{
+    font-size:35px;
+    color:orangered;
+}
+.footer-col ul span{
+    cursor:pointer;
+    font-size:35px;
+    font-weight:bold;
+    color:white;
+}
+.footer-col ul span:hover{
+    color:orangered;
+}
+.map ul a{
+    margin-left: 10px;
+    font-size: 15px;
+    color:white;
+}
+.footer-col .mail ul i{
+    padding-top: 20px;
+
+    font-size:25px;
+}
+.footer-col .mail span{
+
+    padding-left: 15px;;
+    font-size: 13px;
+    font-weight: normal;
+}
+.footer-col .map ul i{
+    padding-top:30px;
+    font-size: 25px;
+}
+.footer-col .map span{
+    font-weight: normal;
+    font-size:13px;
+    margin-left: 30px;
+    margin-top: auto;
+    margin-bottom: auto;
+    color:white;
+
+}
+.footer-col ul li a{
+    line-height: 1.6;
+    font-size:11pt;
+    text-decoration: none;
+    color:white;
+
+}
+.footer-col ul li a:hover{
+    color:orangered;
+}
+

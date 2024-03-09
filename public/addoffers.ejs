@@ -1,0 +1,135 @@
+<!-- addoffers.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Offers</title>
+    <style>
+        /* Styles remain the same as previous code */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #e44d26;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+
+        h2 {
+            color: #e44d26;
+            margin-top: 0;
+        }
+
+        main {
+            margin-top: 80px; /* Adjust the margin based on your header height */
+            padding: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li:hover {
+            transform: scale(1.05);
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+            padding: 10px;
+            flex: 1;
+        }
+
+        strong {
+            color: #e44d26;
+        }
+
+        button {
+            padding: 10px;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            background-color: #e44d26;
+            color: #fff;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        script {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Delicious Food Offers</h1>
+    <h2>Explore our special menu items</h2>
+</header>
+
+<main>
+    <ul>
+        <% FOODS.forEach(food => { %>
+            <li>
+                <a href="#" onclick="viewOffer('<%= food.FOOD_ID %>')">
+                    <strong><%= food.FOOD_NAME %></strong> - $<%= food.FOOD_PRICE %><br><br>
+                </a>
+                <button onclick="addOffer('<%= food.FOOD_ID %>')">Add Offer</button>
+                <button onclick="viewExistingOffers('<%= food.FOOD_ID %>')">View Existing Offers</button>
+            </li>
+        <% }); %>
+    </ul>
+</main>
+
+<!-- Add any additional HTML or scripts as needed -->
+
+<script>
+    
+
+    function addOffer(foodId) {
+        // You can process the selected food item here
+        console.log('Adding offer for Food ID:', foodId);
+        window.location.href = `/addoffertofood/${foodId}`;
+        // Implement your logic to add an offer
+    }
+
+    function viewExistingOffers(foodId) {
+        // You can process the selected food item here
+        console.log('Viewing existing offers for Food ID:', foodId);
+        window.location.href = `/viewOffer/${foodId}`;
+        // Implement your logic to view existing offers
+    }
+</script>
+
+</body>
+</html>

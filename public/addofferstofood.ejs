@@ -1,0 +1,149 @@
+<!-- addoffers.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Offers</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 1em;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px;
+        }
+
+        .food-items {
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .food-items h2 {
+            color: #2c3e50;
+        }
+
+        .food-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .food-item {
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .discount-section {
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .discount-section h2 {
+            color: #2c3e50;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            max-width: 300px;
+            margin-top: 10px;
+        }
+
+        label {
+            margin-bottom: 5px;
+        }
+
+        input {
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        button[type="submit"] {
+            background-color: #27ae60;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #219049;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Add Offers</h1>
+    </header>
+
+    <div class="container">
+        <div class="food-items">
+            <h2>Food Items</h2>
+            <ul class="food-list">
+                <% FOODS.forEach(food => { %>
+                    <li class="food-item">
+                        <strong><%= food.FOOD_NAME %></strong> - $<%= food.FOOD_PRICE %> 
+                        <button onclick="giveOffer('<%= food.FOOD_ID %>','<%= mainfood %>')">Add as Gift</button>
+                    </li>
+                <% }); %>
+            </ul>
+        </div>
+    </form>
+        <div class="discount-section">
+            <h2>Set Discount Percentage</h2>
+            <form action="/applyDiscount/<%= mainfood %>" method="post">
+                <label for="offerName">Offer Name: </label>
+                <input type="text" id="offerName" name="offerName" required>
+                <label for="discount">Discount Percentage (1-100): </label>
+                <input type="number" id="discount" name="discount" min="1" max="100" required>
+                <button type="submit">Apply Discount</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function giveOffer(foodId,mainfood) { 
+            fetch(`/addoffer/${foodId}/tofood/${mainfood}`, {
+                method: "POST",
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Server response:", data);
+                // Handle the server response as needed
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                // Handle errors
+            });
+        }
+    </script>
+</body>
+</html>

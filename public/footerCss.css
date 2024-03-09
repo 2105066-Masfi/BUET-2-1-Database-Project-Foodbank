@@ -1,0 +1,37 @@
+/* Style for the footer */
+.footer {
+    background-color: #ffeeba; /* Light gray background color */
+    padding: 20px 0; /* Padding at the top and bottom */
+    text-align: center; /* Center-align text */
+}
+
+/* Style for the container */
+.container {
+    margin-bottom: 20px; /* Add some bottom margin between each container */
+}
+
+/* Style for the text-muted */
+.text-muted {
+    display: block; /* Make the text-muted span a block element */
+    margin-bottom: 10px; /* Add bottom margin */
+    font-size: 14px; /* Decrease font size */
+    color: #4caf50; /* Gray text color */
+}
+
+/* Style for the footer links */
+.footer-link {
+    color: #d70f64; /* Dark gray text color */
+    text-decoration: none; /* Remove underline from links */
+    margin-right: 10px; /* Add right margin to separate links */
+    transition: color 0.3s; /* Smooth color transition on hover */
+}
+
+/* Style for the footer links on hover */
+.footer-link:hover {
+    color: #007bff; /* Blue text color on hover */
+}
+
+/* Style for the Font Awesome icons */
+.fab {
+    margin-right: 5px; /* Add right margin to separate icons from text */
+}
