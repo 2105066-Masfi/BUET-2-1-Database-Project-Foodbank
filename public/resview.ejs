@@ -31,36 +31,134 @@
             text-align: center;
             cursor: pointer;
         }
+        .delete-button {
+            top: 10px;
+            right: 10px;
+            background-color: #ff5c5c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .add-offers-button {
+            background-color: #3445db;
+            color: white;
+            border: none;
+            padding: 15px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            top: 10px;
+            left: 10px;
+        }
+
+        .cart-button {
+            top: 20px;
+            right: 20px;
+            background-color: #3445db;
+            color: #fff;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .add-offers-button:hover {
+            background-color: #2729ae;
+        }
+        .cart-button:hover {
+            background-color: #2729ae;
+        }
+        .see-reviews-button {
+            top: 15px;
+            right: 1000px;
+            background-color: #3445db;
+            color: #fff;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .see-reviews-button:hover {
+            background-color: #2729ae;
+        }
+        
+
+        .header-buttons {
+            text-align: right;
+            padding: 10px;
+        }
+
+        .header-buttons a,
+        .header-buttons button {
+            display: inline-block;
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>Restaurant Menu</h1>
+        <div class="header-buttons">
+            <a href="/reviews/<%= id %>">
+                <button class="see-reviews-button">See Reviews</button>
+            </a>
+            <a href="/addoffers/<%= id %>">
+                <button class="add-offers-button">Add Offers</button>
+            </a>
+            <a href="/res/<%= id %>/addmenu">
+                <button class="add-offers-button">Add Menu</button>
+            </a>
+            <a href="/vieworders/<%= id %>">
+                <button class="cart-button">View Orders</button>
+            </a>
+        </div>
     </header>
 
     <% if (menus.length > 0) { %>
         <div class="menu-container">
             <% menus.forEach(menu => { %>
-                <div class="menu-item" onclick="viewMenu('<%= menu.menu_id %>')">
+                <div class="menu-item" >
                     <h3><%= menu.category %></h3>
-                    <p>Menu ID: <%= menu.menu_id %></p>
+                    <p>Menu ID: <%= menu.menu_id %></p><br>
+                    <button class="delete-button" onclick="viewMenu('<%= menu.menu_id %>')">View Menu</button>
+                    <button class="delete-button" onclick="deleteMenu('<%= menu.menu_id %>')">Delete</button>
                 </div>
             <% }) %>
         </div>
     <% } else { %>
-        <div class="no-menus">
+        <div class="add-offers-button">
             <p>There are no menus available.</p>
         </div>
     <% } %>
 
-    <div class="add-menu-container">
-        <a href="/res/<%= id %>/addmenu">
-            <button>Add Menu</button>
-        </a>
-    </div>
+    
+
     <script>
+        function deleteMenu(menuId) {
+            
+            console.log("Server response:");
+            fetch(`/delmenu/${menuId}`, {
+                method: "DELETE",
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Server response:", data);
+                
+            })
+            .catch(error => {
+                console.error("Error:", error); 
+            });
+        }
         function viewMenu(menuId) {
             window.location.href = `/menu/${menuId}`;
+        }
+        function addOffers(menuId) { 
+            window.location.href = `/addoffers/${menuId}`; 
         }
     </script>
 </body>

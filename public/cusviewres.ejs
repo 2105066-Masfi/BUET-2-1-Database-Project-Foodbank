@@ -1,55 +1,102 @@
-<!-- views/cusviewres.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Restaurant Menu</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f8f8f8;
-      color: #333;
-      margin: 0;
-      padding: 20px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Menu</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
 
-    h1 {
-      color: #008080;
-    }
+        h1 {
+            color: #008080;
+        }
 
-    .menu-category {
-      margin-bottom: 10px;
-    }
+        .menu-category {
+            margin-bottom: 10px;
+        }
 
-    ul {
-      list-style: none;
-      padding: 0;
-    }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
 
-    li {
-      margin-bottom: 5px;
-    }
+        li {
+            margin-bottom: 5px;
+        }
 
-    a {
-      color: #008080;
-      text-decoration: none;
-      font-weight: bold;
-    }
-  </style>
+        a {
+            color: #008080;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Search bar styles */
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-container input[type="text"] {
+            padding: 10px;
+            margin-right: 10px;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .search-container button {
+            padding: 10px 20px;
+            background-color: #008080;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .search-container button:hover {
+            background-color: #005656;
+        }
+    </style>
 </head>
 <body>
-  <h1>Menu for Restaurant <%= restname %></h1>
+<h1>Menu for Restaurant <%= restname %></h1>
 
-  <!-- Loop through each menu category and display its items -->
-  <% menus.forEach(menu => { %>
-    <div class="menu-category">
-      <h2><%= menu.category %></h2>
-      <ul>
-          <li><a href="/cus/<%=id%>/viewmenu/<%= menu.id %>">View available items in <%= menu.category %> category</a></li>
-      </ul>
-    </div>
-  <% }); %>
+<!-- Search bar -->
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search by menu name">
+    <button onclick="searchMenu()">Search</button>
+</div>
 
+<!-- Loop through each menu category and display its items -->
+<% menus.forEach(menu => { %>
+<div class="menu-category" id="<%= menu.id %>">
+  <h2><%= menu.category %></h2>
+  <ul>
+      <li><a href="/cus/<%=id%>/viewmenu/<%= menu.id %>">View available items in <%= menu.category %> category</a></li>
+  </ul>
+</div>
+<% }); %>
+
+<script>
+    function searchMenu() {
+        var input = document.getElementById('searchInput').value.toLowerCase();
+        var menuCategories = document.querySelectorAll('.menu-category');
+
+        menuCategories.forEach(category => {
+            var categoryName = category.querySelector('h2').textContent.toLowerCase();
+            if (categoryName.includes(input)) {
+                category.style.display = 'block';
+            } else {
+                category.style.display = 'none';
+            }
+        });
+    }
+</script>
 </body>
 </html>

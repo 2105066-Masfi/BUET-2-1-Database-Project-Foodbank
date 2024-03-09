@@ -5,66 +5,153 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customized Menu</title>
     <style>
-        /* Ekhane style hobe */
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styles */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: left;
-            justify-content: center;
-            height: 100vh;
+            padding: 20px;
         }
 
+        /* Container Styles */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Heading Styles */
         h1 {
             color: #333;
+            text-align: center;
+            margin-bottom: 20px;
         }
 
+        /* Food Item Styles */
         .food-item {
             cursor: pointer;
-            margin: 10px;
+            margin-bottom: 20px;
             padding: 15px;
-            border: 1px solid #ddd;
             border-radius: 8px;
             background-color: #fff;
-            transition: background-color 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.2s;
         }
 
         .food-item:hover {
             background-color: #f0f0f0;
+            transform: translateY(-3px);
         }
 
+        /* Text Styles */
         p {
-            margin: 0;
+            margin: 5px 0;
+            font-size: 16px;
+            color: #555;
         }
 
         strong {
             font-weight: bold;
         }
+
+        /* Search Bar Styles */
+        .search-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .search-container input[type="text"] {
+            padding: 10px;
+            margin-right: 10px;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .search-container button {
+            padding: 10px 20px;
+            background-color: #008080;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .search-container button:hover {
+            background-color: #005656;
+        }
     </style>
 </head>
 <body>
+<div class="container">
     <h1>Menu Details</h1>
 
-    <% if (FOODS.length > 0) { %>
-        <% FOODS.forEach((foodItem=> { %>
-            <div class="food-item" onclick="addtocart('<%= foodItem.FOOD_ID %> %>');">
-                <p><strong>ID:</strong> <%= foodItem.FOOD_ID %></p>
-                <p><strong>Name:</strong> <%= foodItem.FOOD_NAME %></p>
-                <p><strong>Price:</strong> $<%= foodItem.FOOD_PRICE %></p>
-            </div>
-        <% })); %>
-    <% } else { %>
-        <p>No food items available.</p>
-    <% } %>
+    <!-- Search bar -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search by food name">
+        <button onclick="searchFoods()">Search</button>
+    </div>
 
-    <script>
-        function addtocart(foodId) {
-            
-            console.log("Adding to cart:", foodId);
-        }
-    </script>
+    <% if (FOODS.length > 0) { %>
+    <% FOODS.forEach((foodItem => { %>
+    <div class="food-item" onclick="addtocart('<%= foodItem.FOOD_ID %>','<%= custId %>','<%= menuId %>');">
+        <p><strong>ID:</strong> <%= foodItem.FOOD_ID %></p>
+        <p><strong>Name:</strong> <%= foodItem.FOOD_NAME %></p>
+        <p><strong>Price:</strong> $<%= foodItem.FOOD_PRICE %></p>
+        <p><strong>LAST Updated On:</strong> <%= foodItem.Updated_ON %></p>
+    </div>
+    <% })); %>
+    <% } else { %>
+    <p>No food items available.</p>
+    <% } %>
+</div>
+
+<script>
+    function addtocart(foodId, custid, menuId) {
+        const data = { foodId, custid, menuId };
+
+        fetch('/addtocart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(responseData => {
+                // Handle the server response if needed
+                console.log('Server Response:', responseData);
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }
+
+    function searchFoods() {
+        var input = document.getElementById("searchInput");
+        var filter = input.value.toUpperCase();
+        var foodItems = document.querySelectorAll('.food-item');
+
+        foodItems.forEach(item => {
+            var name = item.querySelector('p:nth-of-type(2)').textContent.toUpperCase();
+            if (name.includes(filter)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+</script>
 </body>
 </html>

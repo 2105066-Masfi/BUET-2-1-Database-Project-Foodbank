@@ -1,0 +1,122 @@
+<!-- update_food.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Food Details</title>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+            width: 300px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #3d1818;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            color: #342770;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Update Food Details</h2>
+ 
+    <p>Food ID: <%= id %></p>
+ 
+    <form id="updateForm">
+        <label for="food_name">Food Name:</label>
+        <input type="text" id="food_name" name="food_name" required>
+
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" required>
+ 
+        <input type="hidden" id="menuId" name="menuId" value="<%= menuId %>">
+        <input type="hidden" id="food_id" name="food_id" value="<%= id %>">
+ 
+        <button type="button" onclick="update_details()">Update</button>
+    </form>
+ 
+    <script>
+        function update_details() { 
+            var food_name = document.getElementById('food_name').value;
+            var price = document.getElementById('price').value;
+            var menuId = document.getElementById('menuId').value;
+            var food_id = document.getElementById('food_id').value;
+ 
+ 
+            var data = {
+                food_name: food_name,
+                price: price,
+                menuId: menuId,
+                food_id: food_id
+            };
+ 
+            fetch('/update_food', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => { 
+                if(result.success){
+                    alert("Successfully updated food details")
+                }
+                     window.location.href = `/menu/${menuId}`;
+                console.log(result);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

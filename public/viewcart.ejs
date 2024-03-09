@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Cart</title>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            color: #555;
+        }
+    </style>
+
+</head>
+<body>
+
+  <h1>Your Cart</h1>
+
+  <% if (FOODS && FOODS.length > 0) { %>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Food Name</th>
+          <th>Quantity</th>
+          <th>Item Price</th>
+          <th>Total Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% FOODS.forEach(food => { %>
+          <tr>
+            <td><%= food.FOOD_NAME %></td>
+            <td><%= food.QUANTITY %></td>
+            <td>$<%= food.ITEM_PRICE %></td>
+            <td>$<%= food.TOTAL_PRICE %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+
+    <button onclick="placeOrder('<%= custId %>')">Place Order</button>
+
+  <% } else { %>
+    <p>Your cart is empty.</p>
+  <% } %>
+
+  <% if (gifts && gifts.length > 0) { %>
+    <h1>Your Gifts</h1>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Gift Name</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% gifts.forEach(gift => { %>
+          <tr>
+            <td><%= gift.name %></td>
+            <td><%= gift.amount %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  <% } %>
+
+  <script>
+    function placeOrder(custId) {
+        const data={custId};
+      // Make a POST request using the Fetch API
+      fetch('/placeorder', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      .then(response => response.json())
+      .then(result => {
+        if(result.success)
+            window.location.href = `/viewcart/`+result.Id; 
+      })
+      .catch(error => {
+        console.error('Error placing order:', error);
+      });
+    }
+  </script>
+
+</body>
+</html>

@@ -33,7 +33,6 @@
             position: relative;
         }
         .delete-button {
-            position: absolute;
             top: 10px;
             right: 10px;
             background-color: #ff5c5c;
@@ -70,11 +69,12 @@
 
     <div class="food-container">
         <% FOODS.forEach(food => { %>
-            <div class="food-item" onclick="viewFood('<%= food.FOOD_ID %>')">
+            <div class="food-item" >
                 <h3><%= food.FOOD_NAME %></h3>
                 <p>Food ID: <%= food.FOOD_ID %></p>
                 <p>Price: <%= food.FOOD_PRICE %></p>
                 <button class="delete-button" onclick="deleteFood('<%= food.FOOD_ID %>')">Delete</button>
+                <button class="delete-button" onclick="viewFood('<%= food.FOOD_ID %>','<%= menuId %>')">Edit Details</button>
             </div>
         <% }) %>
     </div>
@@ -82,47 +82,38 @@
     <button class="add-food-button" onclick="redirectToAddFood('<%= menuId %>')">Add Food</button>
     <button class="delete-menu-button" onclick="deleteMenu('<%= menuId %>')">Delete Menu</button>
     <script>
-        function viewFood(foodId) {
-            // Redirect or perform actions when a food item is clicked
-            // For example, send a GET request to the server for detailed food information
-            // You can use window.location.href or fetch API here
-            console.log("Viewing food:", foodId);
-        }
-        function deleteMenu(menuId) {
-            // Send a DELETE request to the server to delete the entire menu
-            // For example, you can use the fetch API
+            function viewFood(foodId,menuId) 
+            { 
+                window.location.href = `/updatefooddetails/${foodId}/${menuId}`;
+            }
+
+        function deleteMenu(menuId) { 
             fetch(`/delmenu/${menuId}`, {
                 method: "DELETE",
             })
             .then(response => response.json())
             .then(data => {
-                console.log("Server response:", data);
-                // Handle the server response as needed
+                console.log("Server response:", data); 
             })
             .catch(error => {
                 console.error("Error:", error);
                 // Handle errors
             });
         }
-        function deleteFood(foodId) {
-            // Send a DELETE request to the server to delete the selected food item
-            // For example, you can use the fetch API
+        function deleteFood(foodId) { 
             fetch(`/menu/${foodId}`, {
                 method: "DELETE",
             })
             .then(response => response.json())
             .then(data => {
-                console.log("Server response:", data);
-                // Handle the server response as needed
+                console.log("Server response:", data); 
             })
             .catch(error => {
-                console.error("Error:", error);
-                // Handle errors
+                console.error("Error:", error); 
             });
         }
 
-        function redirectToAddFood(menuId) {
-            // Redirect to the Add Food page with the menuId
+        function redirectToAddFood(menuId) { 
             window.location.href = `/addfood/${menuId}`;
         }
     </script>

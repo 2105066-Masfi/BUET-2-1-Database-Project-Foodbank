@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log Records</title>
+</head>
+<body>
+  <h1>Log Records</h1>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Log ID</th>
+        <th>Caller Type</th>
+        <th>Caller ID</th>
+        <th>Type</th>
+        <th>Parameters</th>
+        <th>Type Name</th>
+        <th>Call Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% logRecords.forEach(record => { %>
+        <tr>
+          <td><%= record.LOG_ID %></td>
+          <td><%= record.CALLER_TYPE %></td>
+          <td><%= record.CALLER_ID %></td>
+          <td><%= record.TYPE %></td>
+          <td><%= record.PARAMETERS %></td>
+          <td><%= record.TYPE_NAME %></td>
+          <td><%= record.CALL_TIME %></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Orders</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #d3f163;
+        }
+        h1 {
+            color: #333; /* Set the text color */
+            text-align: center; /* Center align the text */
+            margin-top: 20px; /* Add some top margin */
+        }
+    </style>
+</head>
+<body>
+    <h1>Order Tracking System</h1>
+
+    <% const onTheWayOrders = orders.filter(order => order.riderName !== null && order.orderStatus === "PICKED UP"); %>
+    <% if (onTheWayOrders.length > 0) { %>
+        <h2>Order Details - Orders that are on the way</h2>
+        <table>
+            <tr>
+                <th>ORDER_ID</th>
+                <th>Rider Name</th>
+                <th>Phone Number</th>
+                <th>Bill</th>
+            </tr>
+            <% onTheWayOrders.forEach(order => { %>
+                <tr>
+                    <td><%= order.ORDER_ID %></td>
+                    <td><%= order.riderName %></td>
+                    <td><%= order.PHONE_No %></td>
+                    <td>$<%= order.paymentBill %></td>
+                </tr>
+            <% }); %>
+        </table>
+    <% } %>
+
+    <% const deliveredOrders = orders.filter(order => order.riderName !== null && (order.orderStatus === "PREPARED" ||order.orderStatus === "DELIVERED") ); %>
+    <% if (deliveredOrders.length > 0) { %>
+        <h2>Order Details - Delivered Orders</h2>
+        <table>
+            <tr>
+                <th>ORDER_ID</th>
+                <th>Rider Name</th>
+                <th>Phone Number</th>
+                <th>Bill</th>
+            </tr>
+            <% deliveredOrders.forEach(order => { %>
+                <tr>
+                    <td><%= order.ORDER_ID %></td>
+                    <td><%= order.riderName %></td>
+                    <td><%= order.PHONE_No %></td>
+                    <td>$<%= order.paymentBill %></td>
+                </tr>
+            <% }); %>
+        </table>
+    <% } %>
+
+    <% const placedOrders = orders.filter(order => order.riderName === null && order.orderStatus === "PLACED"); %>
+    <% if (placedOrders.length > 0) { %>
+        <h2>Order Details - Placed orders</h2>
+        <table>
+            <tr>
+                <th>ORDER_ID</th>
+                <th>Rider Name</th>
+                <th>Bill</th>
+            </tr>
+            <% placedOrders.forEach(order => { %>
+                <tr>
+                    <td><%= order.ORDER_ID %></td>
+                    <td>Not Assigned yet</td>
+                    <td>$<%= order.paymentBill %></td>
+                </tr>
+            <% }); %>
+        </table>
+    <% } %>
+
+    <% const preparedOrders = orders.filter(order => order.riderName === null && order.orderStatus === "PREPARED"); %>
+    <% if (preparedOrders.length > 0) { %>
+        <h2>Order Details - PREPARED orders</h2>
+        <table>
+            <tr>
+                <th>ORDER_ID</th>
+                <th>Rider Name</th>
+                <th>Phone Number</th>
+                <th>Bill</th>
+            </tr>
+            <% preparedOrders.forEach(order => { %>
+                <tr>
+                    <td><%= order.ORDER_ID %></td>
+                    <td><%= order.riderName %></td>
+                    <td><%= order.PHONE_No %></td>
+                    <td>$<%= order.paymentBill %></td>
+                </tr>
+            <% }); %>
+        </table>
+    <% } %>
+
+</body>
+</html>

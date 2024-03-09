@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write Review</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #008080;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #008080;
+            color: #fff;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #006666;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Write Review</h1>
+    <form id="reviewForm"> 
+        <label for="rating">Rating:</label>
+        <select id="rating" name="rating" required>
+            <option value="">Select Rating</option>
+            <option value="5">5 Stars</option>
+            <option value="4">4 Stars</option>
+            <option value="3">3 Stars</option>
+            <option value="2">2 Stars</option>
+            <option value="1">1 Star</option>
+        </select>
+        <label for="review">Your Review:</label>
+        <textarea id="review" name="review" rows="4" required></textarea>
+        <button type="button" onclick="submit_review('<%= custId %>', '<%= resId %>')">Submit Review</button>
+    </form>
+</div>
+
+<script>
+    function submit_review(custId, resId) 
+    {  
+        const rating = document.getElementById('rating').value;
+        const reviewText = document.getElementById('review').value;
+    
+        const reviewData = {
+            customer_id: custId,
+            restaurant_id: resId, 
+            rating: rating,
+            review: reviewText
+        };
+    
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(reviewData),
+        };
+    
+        const endpoint = '/reviews';  
+    
+        fetch(endpoint, options)
+            .then(response => response.json())
+      .then(result => {
+        if(result.success)
+            window.location.href = `/cusview/`+ custId; 
+      })
+      .catch(error => {
+        console.error('Error placing order:', error);
+      });
+    }
+</script>
+
+</body>
+</html>

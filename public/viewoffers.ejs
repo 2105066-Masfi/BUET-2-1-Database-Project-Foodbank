@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Offers</title>
+    <style> 
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h2>Food Offers</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Food Name</th>
+                    <th>Food Quantity</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% FOODS.forEach(food => { %>
+                    <tr>
+                        <td><%= food.FOOD_NAME %></td>
+                        <td><%= food.QUANTITY %></td>
+                        <td>
+                            <button onclick="updateDetails('<%= food.OFFER_ID %>')">Delete offer</button>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <h2>Discount</h2>
+        <div id="discount"> 
+            <% if(discount) {%>
+                <p>Offering <%= percent %>% discount </p>
+                <% }; %>
+        </div>
+    </div>
+
+    <script> 
+        function updateDetails(foodId) { 
+            fetch('/deletegift', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({foodId}),
+        })
+        .then(response => response.json())
+        .then(result => { 
+        })
+        .catch(error => { 
+            console.error('Error:', error);
+        });
+        }
+    </script>
+</body>
+</html>

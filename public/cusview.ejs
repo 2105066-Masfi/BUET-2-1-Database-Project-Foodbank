@@ -1,50 +1,169 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>All Restaurants</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f8f8f8;
-      color: #333;
-      margin: 0;
-      padding: 20px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Restaurants</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
 
-    h1 {
-      color: #008080;
-    }
+        h1 {
+            color: #008080;
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
-    .restaurant {
-      margin-bottom: 20px;
-      padding: 10px;
-      background-color: #fff;
-      border-radius: 5px;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    }
+        .restaurant {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
 
-    strong {
-      color: #008080;
-    }
-  </style>
+        .restaurant:hover {
+            transform: scale(1.02);
+        }
+
+        h2 {
+            color: #008080;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin: 5px 0;
+        }
+
+        strong {
+            color: #008080;
+        }
+
+        .cart-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #008080;
+            color: #fff;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .cart-button:hover {
+            background-color: #006666;
+        }
+        .review-button {
+            position: absolute; /* Change position to absolute */
+            top: 20px; /* Adjusted position */
+            right: 20px; /* Adjusted position */
+            background-color: #008080;
+            color: #fff;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .review-button:hover {
+            background-color: #006666;
+        }
+        .track-orders-button {
+            position: fixed;
+            top: 20px;
+            left: 20px; /* Adjusted position to the left */
+            background-color: #008080;
+            color: #fff;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .track-orders-button:hover {
+            background-color: #006666;
+        }
+    </style>
 </head>
 <body>
-  <h1>All Restaurants</h1>
-  
-  
-  <% Restaurants.forEach(restaurant => { %>
-    <div class="restaurant">
-      <h2><%= restaurant.name %></h2>
-      <p><strong>Address:</strong> <%= restaurant.address %></p>
-      <p><strong>Email:</strong> <%= restaurant.email %></p>
-      <p><strong>Rating:</strong> <%= restaurant.rating %></p>
-      <a href="/cus/<%=id%>/viewres/<%= restaurant.id %>">Go to Restaurant</a>
-    </div>
-  <% }); %>
+<h1>All Restaurants</h1>
+<!-- Search bar -->
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search by restaurant name">
+    <button onclick="searchRestaurants()">Search</button>
+</div>
+<% Restaurants.forEach(restaurant => { %>
+<div class="restaurant">
+    <h2><%= restaurant.name %></h2>
+    <p><strong>Address:</strong> <%= restaurant.address %></p>
+    <p><strong>Email:</strong> <%= restaurant.email %></p>
+    <p><strong>Rating:</strong> <%= restaurant.rating %></p>
+    <p><strong>Opening Date: </strong> <%= restaurant.Opening_date %></p>
+    <a href="/cus/<%=id%>/viewres/<%= restaurant.id %>">Go to Restaurant</a>
+    <button class="review-button" onclick="writeReview('<%=id%>', '<%= restaurant.id %>')">Write Review</button>
+</div>
+<% }); %>
 
-  
+<button class="cart-button" onclick="viewCart('<%= id %>')">View Cart</button>
+<button class="track-orders-button" onclick="trackOrders('<%= id %>')">Track Orders</button>
+
+<script>
+    function viewCart(custid)
+    {
+        window.location.href = `/viewcart/${custid}`;
+    }
+    function writeReview(custId, resId)
+    {
+        const url = `/writeReview/${custId}/${resId}`; 
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json' 
+            }, 
+            credentials: 'same-origin'
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (!result.success) {
+                alert("Review not allowed without ordering food.")
+            }
+            else
+            window.location.href = `/validwriteReview/${custId}/${resId}`;
+        })
+        .catch(error => { 
+            console.error('Error during fetch operation:', error); 
+        });
+    }
+    function trackOrders(custId)
+    {
+        window.location.href = `/trackOrders/${custId}`;
+    }
+    function searchRestaurants() {
+        var input = document.getElementById("searchInput");
+        var filter = input.value.toUpperCase();
+        var restaurants = document.getElementsByClassName("restaurant");
+
+        for (var i = 0; i < restaurants.length; i++) {
+            var name = restaurants[i].getElementsByTagName("h2")[0];
+            if (name.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                restaurants[i].style.display = "";
+            } else {
+                restaurants[i].style.display = "none";
+            }
+        }
+    }
+</script>
 </body>
 </html>

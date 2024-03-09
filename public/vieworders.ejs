@@ -1,0 +1,111 @@
+<!-- vieworders.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Orders</title>
+    <style>
+        /* Your existing CSS styles here */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button.prepareOrder {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button.prepareOrder:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Food Orders</h1>
+
+    <% if (FOODS && FOODS.length > 0) { %>
+
+        <% let groupedFoods = {}; %>
+
+        <% FOODS.forEach(food => { %>
+            <% let orderID = food.ORDER_ID; %>
+            <% groupedFoods[orderID] = groupedFoods[orderID] || []; %>
+            <% groupedFoods[orderID].push(food); %>
+        <% }); %>
+
+        <% Object.keys(groupedFoods).forEach(orderID => { %>
+            <h2>Order ID: <%= orderID %></h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Food Name</th>
+                        <th>Quantity</th>
+                        <th>Item Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% groupedFoods[orderID].forEach(food => { %>
+                        <tr>
+                            <td><%= food.FOOD_NAME %></td>
+                            <td><%= food.QUANTITY %></td>
+                            <td><%= food.ITEM_PRICE %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+            <button class="prepareOrder" onclick="prepareOrder('<%= orderID %>','<%= resid %>')">Prepare Order</button>
+        <% }); %>
+
+    <% } else { %>
+        <p>No orders available.</p>
+    <% } %>
+
+    <script>
+        function prepareOrder(orderID,resid) 
+        {
+            const data={orderID,resid};
+            
+      fetch('/prepareOrder', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      .then(response => response.json())
+      .then(result => {
+        if(result.success)
+            window.location.href = `/vieworders/`+resid; 
+      })
+      .catch(error => {
+        console.error('Error placing order:', error);
+      });
+      
+        }
+    </script>
+
+</body>
+
+</html>
