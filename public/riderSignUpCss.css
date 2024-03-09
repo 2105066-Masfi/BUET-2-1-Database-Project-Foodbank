@@ -1,0 +1,120 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('cus.jpg') center/cover no-repeat; /* Replace 'your-photo.jpg' with the actual path to your photo */
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.8); /* Adjust the background color transparency */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items:center; /* Center the form elements */
+    position: relative;
+}
+.corner-name{
+    position: absolute;
+    top: 10px; /* Adjust the distance from the top */
+    left: 10px; /* Adjust the distance from the left */
+    color: #333;
+    font-weight: bolder;
+    font-size: 16px;
+}
+form {
+    width: 100%;
+    max-width: 400px;
+}
+form {
+    width: 100%; /* Make the form take full width of the container */
+    max-width: 400px; /* Set a maximum width for the form */
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+label {
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: bold;
+}
+
+input,
+textarea {
+    width: 100%; /* Make the input and textarea take full width of the container */
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    font-size: 14px;
+    transition: border-color 0.3s ease-in-out;
+}
+/* Change background color for specific form elements */
+#name {
+    background-color: #d6d8ff;
+    width: 80%;
+}
+
+#email {
+    background-color: darkseagreen;
+    width: 80%;
+}
+
+#password {
+    background-color: palegoldenrod;
+    width: 80%;
+}
+
+#phone {
+    background-color:#f8d7da;
+    width: 80%;
+}
+
+#address {
+    background-color: rosybrown;
+    width: 80%;
+}
+
+/* Hover styles for form elements */
+#name:hover,
+#email:hover,
+#password:hover,
+    /*#phone_number:hover,*/
+#address:hover {
+    border-color: #4caf50; /* Change the border color on hover */
+}
+
+input[type="tel"]:hover {
+    border-color: #4caf50; /* Change the border color on hover for the phone input */
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #4caf50;
+}
+
+button {
+    width: 100%; /* Make the button take full width of the container */
+    padding: 12px;
+    background-color: firebrick;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: chartreuse;
+}
+
+

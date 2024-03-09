@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        h2 {
+            color: #555;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        p {
+            color: #777;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Order Details</h1>
+
+    <h2>Order ID: <%= orderId %></h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Food Name</th>
+                <th>Quantity</th>
+                <th>Restaurant</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (let i = 0; i < FOODS.length; i++) { %>
+                <tr>
+                    <td><%= FOODS[i].FOOD_NAME %></td>
+                    <td><%= FOODS[i].QUANTITY %></td>
+                    <td><%= FOODS[i].RESTAURANT %></td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+
+    <p>Rider ID: <%= ridid %></p>
+
+    <button onclick="deliverOrder('<%= orderId %>','<%= ridid %>')">Deliver Order</button>
+
+    <script>
+        function deliverOrder(orderId, Id) {
+            const data = { orderId, Id };
+            fetch('/deliverorder', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success)
+                        window.location.href = `/rid/` + Id;
+                })
+                .catch(error => {
+                    console.error('Error placing order:', error);
+                });
+    
+            console.log('Delivering order:', orderId);
+        }
+    
+        document.addEventListener("DOMContentLoaded", function () {
+            // Sort the FOODS array by restaurant names
+            FOODS.sort((a, b) => a.RESTAURANT.localeCompare(b.RESTAURANT));
+    
+            // Get the tbody element
+            const tbody = document.querySelector('tbody');
+    
+            // Clear existing rows
+            tbody.innerHTML = '';
+    
+            // Add rows for sorted FOODS
+            for (let i = 0; i < FOODS.length; i++) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${FOODS[i].FOOD_NAME}</td>
+                    <td>${FOODS[i].QUANTITY}</td>
+                    <td>${FOODS[i].RESTAURANT}</td>
+                `;
+                tbody.appendChild(row);
+            }
+        });
+    </script>
+    
+
+</body>
+
+</html>

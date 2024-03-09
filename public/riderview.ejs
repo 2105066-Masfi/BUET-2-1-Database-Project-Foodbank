@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rider Page</title>
+  <style>
+    /* Add your styling here */
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+
+    .no-orders-message {
+      font-size: 18px;
+      color: #555;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    .deliver-btn,
+    .view-order-btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <% if (orders.length == 0) { %>
+  <p class="no-orders-message">No orders available at the moment.</p>
+  <% } else { %>
+  <% for (const order of orders) { %>
+  <h2>Order <%= order.ORDER_ID %></h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Customer Name</th>
+        <th>PAYMENT AMOUNT</th>
+        <th>ADDRESS</th>
+        <th>PHONE_NO</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= order.NAME %></td>
+        <td><%= order.PAYMENT_AMOUNT %></td>
+        <td><%= order.ADDRESS %></td>
+        <td><%= order.PHONE_NO %></td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="deliver-btn" onclick="pickOrder('<%= order.ORDER_ID %>','<%= id %>')">Pick order</button>
+  <!-- Add the "View Picked Order" button here -->
+  <% }} %>
+  
+  <button class="view-order-btn" onclick="viewPickedOrder( '<%= id %>')">View Picked Order</button>
+  <script>
+    function pickOrder(orderId, Id) {
+      const data = {
+        orderId,
+        Id
+      };
+      fetch('/pickorder', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(result => {
+          if (result.success)
+            window.location.href = `/rid/` + Id + `/viewsorder/` + orderId;
+        })
+        .catch(error => {
+          console.error('Error placing order:', error);
+        });
+
+      console.log('Delivering order:', orderId);
+    }
+
+    function viewPickedOrder(Id) {
+      // Redirect to the desired link
+      window.location.href = `/rid/` + Id + `/viewpickedorder`;
+    }
+  </script>
+</body>
+
+</html>
